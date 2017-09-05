@@ -1,4 +1,5 @@
 
+#include <cstdint>
 //Describes logging levels.
 //FATAL: An unrecoverable error state. Program will halt.
 //ERROR: A potentially recoverable error.
@@ -13,3 +14,5 @@ void initialize_logging(loglevel level);
 //Logs the string with the specified length at the specified loglevel.
 void FSAE_log(loglevel level, const char* str);
 
+//Prints out the passed 64 bit integer as a hexadecimal value
+void FSAE_log_hex(loglevel level, const uint64_t hex);
