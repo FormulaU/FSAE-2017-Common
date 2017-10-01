@@ -7,6 +7,7 @@ const uint32_t g_CAN_baud = 250000;
 Threads::Mutex* g_p_CAN_lock = new Threads::Mutex();
 
 static can_msg_callback handler = NULL;
+static void* callback_ctx = NULL;
 static uint8_t id;
 static CAN_message_t msg;
 static FlexCAN* p_can0 = NULL;
@@ -14,8 +15,9 @@ static FlexCAN* p_can0 = NULL;
 //Registers a handler to be called to handle CAN messages.
 //@param callback The callback to use.
 //@param identifier The CAN identifier to use. 
-void register_callback(can_msg_callback callback, uint16_t identifier)
+void register_callback(can_msg_callback callback, void* ctx,  uint16_t identifier)
 {
+  callback_ctx = ctx;
   handler = callback;
   id = identifier;
 }
@@ -46,7 +48,7 @@ void start_listener()
 	{
 	  //Read CAN message and call callback.
 	  p_can0->read(msg);
-	  handler(msg);
+	  handler(msg, callback_ctx);
 	}
       g_p_CAN_lock->unlock();
       yield();//yield.

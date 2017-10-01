@@ -9,13 +9,13 @@ extern const uint32_t g_CAN_baud;
 //The lock we use to access the CAN bus.
 extern Threads::Mutex* g_p_CAN_lock;
 
-//The type we use for our CAN message callback.
-typedef void (*can_msg_callback) (CAN_message_t);
+//The type we use for our CAN message callback (/w context).
+typedef void (*can_msg_callback) (CAN_message_t, void*);
 
 //Registers a handler to be called to handle CAN messages.
 //@param callback The callback to use.
 //@param identifier The CAN identifier to use.
-void register_callback(can_msg_callback callback, uint16_t identifier);
+void register_callback(can_msg_callback callback, void* ctx, uint16_t identifier);
 //Deregisters the callback previously registered, so it doesn't get called when messages are received anymore.
 void deregister_callback();
 //Blocking call.
