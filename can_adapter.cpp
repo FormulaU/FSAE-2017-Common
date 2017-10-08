@@ -50,12 +50,6 @@ void start_listener()
 {
   //Lock entering the listener. Will unlock when we hit yield.
   g_p_CAN_lock->lock();
-  if (p_can0 == NULL)
-    {
-      //Set up the CAN interface.
-      p_can0 = new FlexCAN(g_CAN_baud, id);
-    }
-  p_can0->begin();
   while (handler != NULL)
     {
       if (p_can0->available())
@@ -71,7 +65,6 @@ void start_listener()
     }
   //Unlock exiting the loop.
   g_p_CAN_lock->unlock();
-  p_can0->end();
 }
 
 // Writes the specified message to the CAN bus.
