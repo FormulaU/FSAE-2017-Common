@@ -12,6 +12,20 @@ static uint8_t id;
 static CAN_message_t msg;
 static FlexCAN* p_can0 = NULL;
 
+//Sets up the CAN bus for use. Should only be called once.
+void initialize_can()
+{
+  p_can0 = new FlexCAN(g_CAN_baud);
+  p_can0->begin();
+}
+
+//Cleans up the CAN bus
+void deinitialize_can()
+{
+  p_can0->end();
+  delete p_can0;
+  p_can0 = 0;
+}
 //Registers a handler to be called to handle CAN messages.
 //@param callback The callback to use.
 //@param identifier The CAN identifier to use. 
@@ -60,3 +74,11 @@ void start_listener()
   p_can0->end();
 }
 
+// Writes the specified message to the CAN bus.
+//@param The message to write out on the CAN bus.
+void can_write(CAN_message_t msg)
+{
+  g_p_CAN_lock->lock();
+  p_can0->write(msg);
+  g_p_CAN_lock->unlock();
+}
