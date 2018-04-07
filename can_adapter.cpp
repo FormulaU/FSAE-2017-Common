@@ -8,7 +8,6 @@ Threads::Mutex* g_p_CAN_lock = new Threads::Mutex();
 
 static can_msg_callback handler = NULL;
 static void* callback_ctx = NULL;
-static uint8_t id;
 static CAN_message_t msg;
 static FlexCAN* p_can0 = NULL;
 
@@ -29,11 +28,10 @@ void deinitialize_can()
 //Registers a handler to be called to handle CAN messages.
 //@param callback The callback to use.
 //@param identifier The CAN identifier to use. 
-void register_callback(can_msg_callback callback, void* ctx,  uint16_t identifier)
+void register_callback(const can_msg_callback callback, void* ctx)
 {
   callback_ctx = ctx;
   handler = callback;
-  id = identifier;
 }
 
 //Deregisters the callback previously registered, so it doesn't get called when messages are received anymore.
@@ -56,7 +54,7 @@ void start_listener()
 	{
 	  //Read CAN message and call callback.
 	  p_can0->read(msg);
-	  handler(msg, callback_ctx);
+	  handler(&msg, callback_ctx);
 	}
       g_p_CAN_lock->unlock();
       yield();//yield.
