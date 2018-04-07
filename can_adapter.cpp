@@ -1,8 +1,6 @@
 #include <can_adapter.h>
 
 //I hate this more than almost anything else in the entire world. 
-// Baud rate for the CAN adapter.
-const uint32_t g_CAN_baud = 250000;
 //The lock we use to access the CAN bus.
 Threads::Mutex* g_p_CAN_lock = new Threads::Mutex();
 
@@ -14,7 +12,7 @@ static FlexCAN* p_can0 = NULL;
 //Sets up the CAN bus for use. Should only be called once.
 void initialize_can()
 {
-  p_can0 = new FlexCAN(g_CAN_baud);
+  p_can0 = new FlexCAN(g_CAN_BAUD);
   p_can0->begin();
 }
 

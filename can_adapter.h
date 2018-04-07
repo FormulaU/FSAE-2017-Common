@@ -5,7 +5,7 @@
 #include <TeensyThreads.h>
 
 // Baud rate for the CAN adapter.
-extern const uint32_t g_CAN_baud;
+const uint32_t g_CAN_BAUD = 125000;
 //The lock we use to access the CAN bus.
 extern Threads::Mutex* g_p_CAN_lock;
 
