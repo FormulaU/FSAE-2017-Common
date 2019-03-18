@@ -2,7 +2,7 @@
 
 #include <FlexCAN.h>
 
-static const uint8_t RMS_BASE_ID = 10;
+static const uint8_t RMS_BASE_ID = 0x0A0;
 
 //Generates a Command message struct with the specified data.
 void gen_cmd(CAN_message_t* msg,

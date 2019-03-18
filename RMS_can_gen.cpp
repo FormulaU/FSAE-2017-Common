@@ -5,7 +5,7 @@ void gen_cmd(CAN_message_t* msg,
 	     bool direction, bool enable,
 	     bool discharge, int16_t torque_limit)
 {
-  msg->id = RMS_BASE_ID + 0x0C0;
+  msg->id = RMS_BASE_ID + 0x20;
   msg->len = 8;
 
   //Insert the bottom 8 bits of the torque value into byte 0
@@ -27,7 +27,7 @@ void gen_cmd(CAN_message_t* msg,
 
   //Set the inverter bit
   //(Ditto)
-  msg->buf[5] = (static_cast<byte>(discharge) << 1) & 0x1;
+  msg->buf[5] |= (static_cast<byte>(discharge) << 1) & 0x3;
 
    //Insert the bottom 8 bits of the speed value into byte 0
   msg->buf[6] = torque_limit;
